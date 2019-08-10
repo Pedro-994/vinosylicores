@@ -19,6 +19,7 @@ CREATE TABLE detpedido(
     idproducto int,
 	idcliente int,
 	cantidad int,
+    comentario text,
     FOREIGN KEY(idproducto) REFERENCES producto(idproducto),
 	FOREIGN KEY(idcliente) REFERENCES cliente(idcliente)
 );

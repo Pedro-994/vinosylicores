@@ -22,7 +22,7 @@ function getPro(){
         <img src="img/<?php echo $img?>" style='width:100%'>
         <div class='texto-imagen'>
             <p><?php echo $nombre?></p>
-            <input type='checkbox' name='agregar[]' value='<?php echo $id_prod; ?>'>
+            <input type='checkbox' required name='agregar[]' value='<?php echo $id_prod; ?>'>
             <p>Precio:$ <?php echo $precio?></p>
             <p>Cantidad: </p>
             <div>
@@ -47,6 +47,7 @@ function agregar(){
             $product_qty = $_POST['cantidad'];
             $nombre = $_POST['nombre'];
             $apellido = $_POST['apellido'];
+            $comentario = $_POST['comentario'];
 
             $consulta = "SELECT idcliente FROM cliente where nombre='$nombre' AND apellido='$apellido'";
             $resultado_consulta = mysqli_query($db,$consulta);
@@ -62,7 +63,7 @@ function agregar(){
             $cliente = mysqli_fetch_array($query);
             $idcliente = $cliente['idcliente'];
 
-            $agregar_producto = "INSERT INTO detpedido(idproducto,idcliente,cantidad) values ('$agregar_id',$idcliente,'$product_qty')";
+            $agregar_producto = "INSERT INTO detpedido(idproducto,idcliente,cantidad,comentario) values ('$agregar_id',$idcliente,'$product_qty','$comentario')";
             $agregar = mysqli_query($db,$agregar_producto);
             
             if($agregar && !$count){     
@@ -72,8 +73,10 @@ function agregar(){
                 echo "<script>alert('Se agrego el pedido al cliente existente.')</script>";
                 echo "<script>window.open('index.php', '_self')</script>";
             }
-        }   
+        }
+          
     }           
 }
 echo @$up = agregar();
 ?>
+

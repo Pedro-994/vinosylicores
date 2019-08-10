@@ -26,7 +26,7 @@
     
     <div>
         <form action="index.php" method="POST" enctype="multipart/form-data">
-            <input type="text" name="nombre" placeholder="Nombre">
+            <input type="text" name="nombre" placeholder="Nombre" required>
             <input type="text" name="apellido" placeholder="Apellido" required>
             <br>
             <?php
