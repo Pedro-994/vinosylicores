@@ -22,7 +22,7 @@ function getPro(){
         <img src="img/<?php echo $img?>" style='width:100%'>
         <div class='texto-imagen'>
             <p><?php echo $nombre?></p>
-            <input type='checkbox' required name='agregar[]' value='<?php echo $id_prod; ?>'>
+            <input type='checkbox' name='agregar[]' value='<?php echo $id_prod; ?>'>
             <p>Precio:$ <?php echo $precio?></p>
             <p>Cantidad: </p>
             <div>
@@ -57,9 +57,8 @@ function agregar(){
                     $add = mysqli_query($db,$agregar_usuario);
                 }
             
-
-            $get_p_cat ="SELECT idcliente FROM cliente where nombre='$nombre' AND apellido='$apellido'";
-            $query = mysqli_query($db,$get_p_cat);
+            $get_c ="SELECT idcliente FROM cliente where nombre='$nombre' AND apellido='$apellido'";
+            $query = mysqli_query($db,$get_c);
             $cliente = mysqli_fetch_array($query);
             $idcliente = $cliente['idcliente'];
 
@@ -70,13 +69,41 @@ function agregar(){
                 echo "<script>alert('Se creo  cliente y se agrego el pedido.')</script>";
                 echo "<script>window.open('index.php', '_self')</script>";
             }else if($agregar && $count!=0){
-                echo "<script>alert('Se agrego el pedido al cliente existente.')</script>";
-                echo "<script>window.open('index.php', '_self')</script>";
+                echo "<script>alert('Se agrego el pedido al cliente existente');window.location= 'index.php'</script>";
             }
         }
           
     }           
 }
 echo @$up = agregar();
-?>
 
+function pedidos(){
+    global $db;
+    if(isset($_POST['consulta'])){
+        $nombre = $_POST['nombre'];
+        $apellido = $_POST['apellido'];
+
+        $cliente_consulta ="SELECT idcliente FROM cliente where nombre='$nombre' AND apellido='$apellido'";
+        $query = mysqli_query($db,$cliente_consulta);
+        $cliente = mysqli_fetch_array($query);
+        $idcliente = $cliente['idcliente'];
+
+        echo "<table>
+        <tr>
+          <th>Nombre producto</th>
+          <th>Cantidad</th>
+          <th>Comentarios</th>
+        </tr>";        
+        $subconsulta = "SELECT nombrep,cantidad,comentario FROM detpedido 
+                        INNER JOIN producto ON detpedido.idproducto = producto.idproducto where idcliente = $idcliente";
+        $subquery = mysqli_query($db,$subconsulta);
+        while($row = mysqli_fetch_assoc($subquery)) { ?>
+        <tr>
+           <td><?php echo $row['nombrep']; ?></td>
+           <td><?php echo $row['cantidad']; ?></td>
+           <td><?php echo $row['comentario']; ?></td>
+        </tr>
+<?php   }
+    }
+}
+?>

@@ -28,6 +28,7 @@
         <form action="index.php" method="POST" enctype="multipart/form-data">
             <input type="text" name="nombre" placeholder="Nombre" required>
             <input type="text" name="apellido" placeholder="Apellido" required>
+            <input type="submit" value="Consulta"name="consulta">
             <br>
             <?php
                 getPro();
@@ -38,6 +39,10 @@
             <input type="submit" value="Enviar"name="enviar">
         </form>
     </div>
+    <div>
+    <?php
+        pedidos();
+    ?>
     </div>
 </body>
 
